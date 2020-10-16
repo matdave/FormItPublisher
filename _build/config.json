@@ -1,0 +1,22 @@
+{
+    "name": "FormIt Publisher",
+    "lowCaseName": "formitpublisher",
+    "description": "",
+    "author": "matdave",
+    "version": "1.0.0-beta1",
+    "package": {
+      "elements": {
+        "snippets": [
+          {
+            "name": "fiPublisher",
+            "file": "HookPublisher.php"
+          },
+          {
+            "name": "fiRetriever",
+            "file": "PreeHookRetriever.php"
+          }
+        ]
+      }
+    }
+  }
+  

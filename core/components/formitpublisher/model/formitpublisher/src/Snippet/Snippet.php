@@ -1,4 +1,5 @@
 <?php
+
 namespace FormItPublisher\Snippet;
 
 abstract class Snippet
@@ -68,4 +69,41 @@ abstract class Snippet
 
         return '';
     }
+
+    /**
+     * @param mixed $fields "key1==property1,key2==property2,property3" or array("key1"=>"property1", "key2"=>"property2")
+     * @param array $values array("key1"=>"value1")
+     */
+    
+    public function getProperties($fields = null, $values = array())
+    {
+        $properties = array();
+        $fields =$this->getKeys($fields);
+        if (!empty($fields)) {
+            foreach ($fields as $k => $v) {
+                $properties[$k] = $values[$v];
+            }
+            return $properties;
+        } else {
+            return $values;
+        }
+    } 
+
+    /**
+     * @param mixed $fields "key1==property1,key2==property2,property3" or array("key1"=>"property1", "key2"=>"property2")
+     */
+    
+    public function getFieldKeys($fields = null)
+    { 
+        if (!is_array($fields)) {
+            $fieldsNew = array();
+            $fields = explode(',', $fields);
+            foreach ($fields as $field) {
+                $field = explode('==', $field);
+                $fieldsNew[$field[0]] = ($field[1]) ? $field[1] : $field[0];
+            }
+            $fields = $fieldsNew;
+        }
+        return $fields;
+    } 
 }
