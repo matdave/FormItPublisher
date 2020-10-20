@@ -78,7 +78,7 @@ abstract class Snippet
     public function getProperties($fields = null, $values = array())
     {
         $properties = array();
-        $fields =$this->getKeys($fields);
+        $fields =$this->getFieldKeys($fields);
         if (!empty($fields)) {
             foreach ($fields as $k => $v) {
                 $properties[$k] = $values[$v];
