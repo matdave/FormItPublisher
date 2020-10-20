@@ -45,7 +45,7 @@ class HookPublisher extends Snippet
             $resource = $this->modx->getObject('modResource', $fipResource);    
         }
 
-        if(empty($resource)){
+        if(!(array)$resource){
             $response = $this->modx->runProcessor('resource/create', $fields);
         }else{
             $fields['id'] = $fipResource;

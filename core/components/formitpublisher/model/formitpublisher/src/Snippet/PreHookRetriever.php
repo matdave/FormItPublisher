@@ -21,7 +21,7 @@ class PreHookRetriever extends Snippet
         if($fipResource){
             $resource = $this->modx->getObject('modResource', $fipResource);    
         }
-        if(empty($resource)){
+        if(!(array)$resource){
             return true;
         }
         if($fipCheckPermissions && !$this->checkPermissions($resource)){
