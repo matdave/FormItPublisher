@@ -1,7 +1,7 @@
 {
     "name": "FormIt Publisher",
     "lowCaseName": "formitpublisher",
-    "description": "",
+    "description": "MODX Resource Publisher for Form It",
     "author": "matdave",
     "version": "1.0.0-beta1",
     "package": {
@@ -13,7 +13,7 @@
           },
           {
             "name": "fiRetriever",
-            "file": "PreeHookRetriever.php"
+            "file": "PreHookRetriever.php"
           }
         ]
       }
