@@ -10,22 +10,22 @@ class FormItPublisher
     /**
      * @var array
      */
-    public $config = array();
+    public $options = array();
     public $namespace = 'formitpublisher';
 
-    public function __construct(modX &$modx, array $config = array())
+    public function __construct(modX &$modx, array $options = array())
     {
         $this->modx =& $modx;
-        $corePath = $this->modx->getOption('formitpublisher.core_path', $config, $this->modx->getOption('core_path') . 'components/formitpublisher/');
-        $this->config = array_merge(array(
+        $corePath = $this->modx->getOption('formitpublisher.core_path', $options, $this->modx->getOption('core_path') . 'components/formitpublisher/');
+        $this->options = array_merge(array(
             'namespace' => $this->namespace,
             'basePath' => $this->modx->getOption('base_path'),
             'corePath' => $corePath,
             'modelPath' => $corePath . 'model/',
             'snippetPath' => $corePath . 'elements/snippets/',
             'pluginPath' => $corePath . 'elements/plugin/',
-        ), $config);
-        $this->modx->addPackage($this->namespace, $this->config['modelPath']);
+        ), $options);
+        $this->modx->addPackage($this->namespace, $this->options['modelPath']);
         $this->autoload();
     }
 
