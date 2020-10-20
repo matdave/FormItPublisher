@@ -16,7 +16,7 @@ class FormItPublisher
     public function __construct(modX &$modx, array $config = array())
     {
         $this->modx =& $modx;
-        $corePath = $this->modx->getOption('bluehook.core_path', $config, $this->modx->getOption('core_path') . 'components/bluehook/');
+        $corePath = $this->modx->getOption('formitpublisher.core_path', $config, $this->modx->getOption('core_path') . 'components/formitpublisher/');
         $this->config = array_merge(array(
             'namespace' => $this->namespace,
             'basePath' => $this->modx->getOption('base_path'),
