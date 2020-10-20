@@ -25,7 +25,6 @@ class FormItPublisher
             'snippetPath' => $corePath . 'elements/snippets/',
             'pluginPath' => $corePath . 'elements/plugin/',
         ), $config);
-        $this->modxUserId = $this->getOption('use_modx_id', $config, true);
         $this->modx->addPackage($this->namespace, $this->config['modelPath']);
     }
 }
