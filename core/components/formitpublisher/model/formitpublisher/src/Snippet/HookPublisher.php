@@ -19,6 +19,7 @@ class HookPublisher extends Snippet
         $fipTVFields = $this->modx->getOption('fipTVFields', $this->hook->formit->config, null);
         $fipResourceDefaults = json_decode($this->modx->getOption('fipResourceDefaults', $this->hook->formit->config, '[]'), true);
         $fipCheckPermissions = $this->modx->getOption('fipCheckPermissions', $this->hook->formit->config, true);
+        $fipRedirectOnSave = $this->modx->getOption('fipRedirectOnSave', $this->hook->formit->config, false);
         $fipResource = (int)$this->modx->getOption('fipResource', $this->hook->formit->config, 0);
         if($fipCheckPermissions && !$this->checkPermissions($fipResource)){
             $this->hook->addError('fiPublisher','Could not verify permissions.');
@@ -48,6 +49,7 @@ class HookPublisher extends Snippet
         }
 
         if(!(array)$resource){
+            $fields['alias'] = $this->checkAlias($fields);
             $response = $this->modx->runProcessor('resource/create', $fields);
         }else{
             $fields['id'] = $fipResource;
@@ -67,7 +69,11 @@ class HookPublisher extends Snippet
         }else{
             $object = $response->getObject();
             $this->hook->setValue('resourceid', $object['id']);
-            return true;
+            if($fipRedirectOnSave){
+                $this->modx->sendRedirect($this->modx->makeUrl($object['id']));
+            }else{
+                return true;
+            }
         }
         
         $this->hook->addError('fiPublisher','Unable to create resource.');
@@ -81,5 +87,22 @@ class HookPublisher extends Snippet
         if (!$update && !$this->modx->hasPermission('new_document')) return false;
 
         return true;
+    }
+
+    private function checkAlias($fields = array(), $check = 0){ 
+        if(empty($fields['alias']) && !empty($fields['pagetitle'])){
+            $fields['alias'] = $this->modx->resource->cleanAlias($fields['pagetitle']);
+        }elseif(empty($fields['alias']) && empty($fields['pagetitle'])){
+            $fields['alias'] = mktime();
+        }
+        if($check > 0){
+            $fields['alias'] = rtrim($fields['alias'], ($check - 1)).$check;
+        }
+        
+        if(empty($this->modx->getObject('modResource', array('alias' => $fields['alias'])))){
+            return $fields['alias'];
+        }else{
+            return $this->checkAlias($fields, ++$check);
+        }
     }
 }
