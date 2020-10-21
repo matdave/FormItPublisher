@@ -18,6 +18,10 @@ class PreHookRetriever extends Snippet
         $fipTVFields = $this->modx->getOption('fipTVFields', $this->hook->formit->config, null);
         $fipCheckPermissions = $this->modx->getOption('fipCheckPermissions', $this->hook->formit->config, true);
         $fipResource = (int)$this->modx->getOption('fipResource', $this->hook->formit->config, 0);
+        $fipResourceKey = $this->modx->getOption('fipResourceKey', $this->hook->formit->config, null);
+        if($fipResourceKey){
+            $fipResource = (int)$_REQUEST[$fipResourceKey];
+        }
         if($fipResource){
             $resource = $this->modx->getObject('modResource', $fipResource);    
         }

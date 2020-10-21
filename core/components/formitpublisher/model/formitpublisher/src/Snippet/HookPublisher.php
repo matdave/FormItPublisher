@@ -21,6 +21,10 @@ class HookPublisher extends Snippet
         $fipCheckPermissions = $this->modx->getOption('fipCheckPermissions', $this->hook->formit->config, true);
         $fipRedirectOnSave = $this->modx->getOption('fipRedirectOnSave', $this->hook->formit->config, false);
         $fipResource = (int)$this->modx->getOption('fipResource', $this->hook->formit->config, 0);
+        $fipResourceKey = $this->modx->getOption('fipResourceKey', $this->hook->formit->config, null);
+        if($fipResourceKey){
+            $fipResource = (int)$this->values[$fipResourceKey];
+        }
         if($fipCheckPermissions && !$this->checkPermissions($fipResource)){
             $this->hook->addError('fiPublisher','Could not verify permissions.');
             return $this->hook->hasErrors();
@@ -69,11 +73,13 @@ class HookPublisher extends Snippet
         }else{
             $object = $response->getObject();
             $this->hook->setValue('resourceid', $object['id']);
+            $resource = $this->modx->getObject('modResource', $object['id']);
+            $this->modx->reloadContext($resource->context_key);
             if($fipRedirectOnSave){
-                $this->modx->sendRedirect($this->modx->makeUrl($object['id']));
-            }else{
-                return true;
+                $url = $this->modx->makeUrl($resource->id, $resource->context_key, '', 'full');
+                $this->modx->sendRedirect($url);
             }
+            return true;
         }
         
         $this->hook->addError('fiPublisher','Unable to create resource.');
