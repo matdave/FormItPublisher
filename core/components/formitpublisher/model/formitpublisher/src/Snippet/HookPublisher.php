@@ -44,6 +44,7 @@ class HookPublisher extends Snippet
         foreach($tvs as $k=>$v){
             $tv = $this->modx->getObject('modTemplateVar', array('name' => $k));
             if(!empty($tv)){
+                $fields['tvs'] = true;
                 $fields['tv' . $tv->get('id')] = $v;
             }
         }
@@ -56,7 +57,7 @@ class HookPublisher extends Snippet
             $fields['alias'] = $this->checkAlias($fields);
             $response = $this->modx->runProcessor('resource/create', $fields);
         }else{
-            $fields['id'] = $fipResource;
+            $fields = $fields + $resource->toArray();
             @unlink($this->modx->getOption('core_path') . 'cache/resource/web/resources/' . $fields['id'] . '.cache.php');
             $response = $this->modx->runProcessor('resource/update', $fields);
         }
