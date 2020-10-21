@@ -53,8 +53,8 @@ class PreHookRetriever extends Snippet
     private function checkPermissions($resource){
         if (!$this->modx->user) return false;
         if (!($this->modx->user->hasSessionContext('mgr') || $this->modx->user->hasSessionContext($this->modx->resource->context_key))) return false;
-        if (!$this->modx->hasPermission('view_document')) return false;
-        if ($resource->hasPermission('view_document')) return false;
+        if (!$this->modx->hasPermission('save_document')) return false;
+        if ($resource->checkPolicy('save')) return false;
 
         return true;
     }
