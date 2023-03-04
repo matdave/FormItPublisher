@@ -49,12 +49,12 @@ abstract class Snippet
     }
 
     /**
-     * @param  string $tplName
-     * @param  array  $phs
+     * @param string $tplName
+     * @param array $phs
      *
      * @return string
      */
-    public function chunk($tplName, $phs = [])
+    public function chunk(string $tplName, array $phs = []): string
     {
         if (!isset($this->tplCache[$tplName])) {
             $tpl = $this->modx->getOption($tplName, $this->sp, '');
@@ -63,19 +63,24 @@ abstract class Snippet
             $tpl = $this->tplCache[$tplName];
         }
 
-        if (!empty($tpl)) return $this->modx->getChunk($tpl, $phs);
+        if (!empty($tpl)) {
+            return $this->modx->getChunk($tpl, $phs);
+        }
 
-        if ($this->debug) return "<strong>{$tplName}</strong><br><pre>" . print_r($phs, true) . "</pre>";
+        if ($this->debug) {
+            return "<strong>{$tplName}</strong><br><pre>" . print_r($phs, true) . "</pre>";
+        }
 
         return '';
     }
 
     /**
-     * @param mixed $fields "key1==property1,key2==property2,property3" or array("key1"=>"property1", "key2"=>"property2")
+     * @param mixed $fields "key1==property1,key2==property2,property3"
+     *                       or array("key1"=>"property1", "key2"=>"property2")
      * @param array $values array("key1"=>"value1")
      */
     
-    public function getProperties($fields = null, $values = array())
+    public function getProperties($fields = null, array $values = array()): array
     {
         $properties = array();
         $fields =$this->getFieldKeys($fields);
@@ -87,23 +92,24 @@ abstract class Snippet
         } else {
             return $values;
         }
-    } 
+    }
 
     /**
-     * @param mixed $fields "key1==property1,key2==property2,property3" or array("key1"=>"property1", "key2"=>"property2")
+     * @param mixed $fields "key1==property1,key2==property2,property3"
+     *                       or array("key1"=>"property1", "key2"=>"property2")
      */
     
     public function getFieldKeys($fields = null)
-    { 
+    {
         if (!is_array($fields)) {
             $fieldsNew = array();
             $fields = explode(',', $fields);
             foreach ($fields as $field) {
                 $field = explode('==', $field);
-                $fieldsNew[$field[0]] = ($field[1]) ? $field[1] : $field[0];
+                $fieldsNew[$field[0]] = (isset($field[1])) ? $field[1] : $field[0];
             }
             $fields = $fieldsNew;
         }
         return $fields;
-    } 
+    }
 }

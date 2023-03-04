@@ -3,7 +3,7 @@
     "lowCaseName": "formitpublisher",
     "description": "MODX Resource Publisher for Form It",
     "author": "matdave",
-    "version": "1.0.0-beta1",
+    "version": "1.0.0-pl",
     "package": {
       "elements": {
         "snippets": [
