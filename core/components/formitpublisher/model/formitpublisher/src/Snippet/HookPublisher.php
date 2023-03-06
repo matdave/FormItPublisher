@@ -85,7 +85,7 @@ class HookPublisher extends Snippet
             return $this->hook->hasErrors();
         } else {
             $object = $response->getObject();
-            $this->hook->setValue('resourceid', $object['id']);
+            $this->hook->setValue('fipResource', $object['id']);
             $resource = $this->modx->getObject('modResource', $object['id']);
             $this->modx->reloadContext($resource->context_key);
             if ($fipRedirectOnSave) {
