@@ -20,7 +20,7 @@ class PreHookRetriever extends Snippet
         $fipTVFields = $this->modx->getOption('fipTVFields', $this->hook->formit->config, null);
         $fipCheckPermissions = $this->modx->getOption('fipCheckPermissions', $this->hook->formit->config, true);
         $fipResource = (int)$this->modx->getOption('fipResource', $this->hook->formit->config, 0);
-        $fipResourceKey = $this->modx->getOption('fipResourceKey', $this->hook->formit->config, null);
+        $fipResourceKey = $this->modx->getOption('fipResourceKey', $this->hook->formit->config, 'fipResource');
         if ($fipResourceKey) {
             $fipResource = (isset($_REQUEST[$fipResourceKey])) ? (int)$_REQUEST[$fipResourceKey] : 0;
         }
@@ -33,7 +33,7 @@ class PreHookRetriever extends Snippet
         if ($fipCheckPermissions && !$this->checkPermissions($resource)) {
             return true;
         }
-        
+
         $fields = $this->getFieldKeys($fipResourceFields);
 
         if (empty($fields)) {
@@ -42,12 +42,12 @@ class PreHookRetriever extends Snippet
         foreach ($fields as $k => $v) {
             $fields[$v] = $resource->get($k);
         }
-        
+
         $tvs = $this->getFieldKeys($fipTVFields);
         foreach ($tvs as $k => $v) {
             $fields[$v] = $resource->getTVValue($k);
         }
-        $fields['resourceid'] = $resource->id;
+        $fields[$fipResourceKey] = $resource->id;
         $this->hook->setValues($fields);
         return true;
     }
